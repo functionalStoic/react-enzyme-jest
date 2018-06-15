@@ -14,22 +14,15 @@ exports[`<App /> matches the snapshot 1`] = `
     />
     <h1
       className="App-title"
+      id="WelcomeGreeting"
     >
       Welcome to React
     </h1>
   </header>
-  <Title
-    id="TitleComponent"
-    text="Some title"
-  />
   <p
     className="App-intro"
   >
-    To get started, edit 
-    <code>
-      src/App.js
-    </code>
-     and save to reload.
+    Hello World
   </p>
 </div>
 `;

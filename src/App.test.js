@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import App, { Link } from './App';
 
 import { configure, shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
@@ -10,33 +10,52 @@ configure({ adapter: new Adapter() });
 
 describe('<App />', () => {
   const wrapper = shallow(<App />);
-  it('should contain match one of the css selectors', () => {
+  it('should match one of the css selectors', () => {
     // Various ways to target an element vis css selector
     // Target via element
     expect(wrapper.find('h1').text()).toBe('Welcome to React');
     // Target via class
-    expect(wrapper.find('.App-intro').text()).toContain('To get started');
+    expect(wrapper.find('.App-intro').text()).toContain('Hello World');
     // Target via id
-    expect(wrapper.find('#TitleComponent').text()).toBe('<Title />');
+    expect(wrapper.find('#WelcomeGreeting').text()).toBe('Welcome to React');
     // Target via attribute
     expect(wrapper.find('[alt="logo"]').exists()).toBe(true);
     // Target via combo of element and attribute
     expect(wrapper.find('img[alt="logo"]').exists()).toEqual(true);
     // Target via child selector
-    expect(wrapper.find('.App > .App-intro').text()).toContain('To get');
+    expect(wrapper.find('.App > .App-intro').text()).toEqual('Hello World');
     // Target via adjacent selector
     expect(wrapper.find('img + h1').text()).toContain('Welcome');
     // Target via general sibling selector
     expect(wrapper.find('img ~ .App-title').text()).toContain('Welcome');
     // Target via descendant selector
-    expect(wrapper.find('.App .App-intro').text()).toContain('To get');
+    expect(wrapper.find('.App .App-intro').text()).toEqual('Hello World');
     // Target via component prop
-    expect(wrapper.find('[text="Some title"]').text()).toBe('<Title />');
+    expect(wrapper.find('[className="App-intro"]').text()).toBe('Hello World');
     // Target via object that matches properties of an element
     expect(wrapper.find({ alt: 'logo' }).exists()).toBe(true);
   });
   it('matches the snapshot', () => {
     const tree = shallow(<App />);
     expect(toJson(tree)).toMatchSnapshot();
+  });
+});
+
+describe('<Link />', () => {
+  it('link component accepts address prop', () => {
+    const wrapper = shallow(<Link address="www.google.com" />);
+    expect(wrapper.instance().props.address).toBe('www.google.com');
+  });
+
+  it('a tag node renders href correctly', () => {
+    const wrapper = shallow(<Link address="www.google.com" />);
+    expect(wrapper.props().href).toBe('www.google.com');
+  });
+
+  it('returns null with true hide prop', () => {
+    const wrapper = shallow(<Link address="www.google.com" />);
+    expect(wrapper.find('a').length).toBe(1);
+    wrapper.setProps({ hide: true });
+    expect(wrapper.get(0)).toBeNull();
   });
 });
