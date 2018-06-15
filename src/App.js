@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
-  state = { on: false, input: '' };
+  state = { on: false, input: '', mainColor: 'blue' };
   render() {
     return (
       <div className="App">
@@ -12,6 +12,7 @@ class App extends Component {
           <h1 id="WelcomeGreeting" className="App-title">
             Welcome to React
           </h1>
+          <h3 className={this.state.mainColor}>Everyone is Welcome!</h3>
         </header>
         <p className="App-intro">Hello World</p>
         <p className="button-state">{this.state.on ? 'Yes!' : 'No!'}</p>
