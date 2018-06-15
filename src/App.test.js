@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App, { Link } from './App';
 
-import { configure, shallow } from 'enzyme';
+import { configure, shallow, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import toJson from 'enzyme-to-json';
 
 configure({ adapter: new Adapter() });
 
-describe('<App />', () => {
+describe('<App /> shallow rendering', () => {
   const wrapper = shallow(<App />);
   it('should match one of the css selectors', () => {
     // Various ways to target an element vis css selector
@@ -38,6 +38,21 @@ describe('<App />', () => {
   it('matches the snapshot', () => {
     const tree = shallow(<App />);
     expect(toJson(tree)).toMatchSnapshot();
+  });
+});
+
+describe('<App /> mount rendering', () => {
+  const wrapper = mount(<App />);
+  it('should match one of the css selectors', () => {
+    // Various ways to target an element vis css selector
+    // Target via element
+    expect(wrapper.find('h1').text()).toBe('Welcome to React');
+    // wrapper.unmount();
+  });
+  it('matches the snapshot', () => {
+    const tree = mount(<App />);
+    expect(toJson(tree)).toMatchSnapshot();
+    // tree.unmount();
   });
 });
 
